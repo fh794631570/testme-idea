@@ -1,0 +1,7 @@
+<idea-plugin version="2">
+    <extensions defaultExtensionNs="com.intellij">
+        <intentionAction>
+            <className>com.weirddev.testme.intellij.generatesetter.koltinActions.GenerateAllSetterForPropertiesAction</className>
+        </intentionAction>
+    </extensions>
+</idea-plugin>

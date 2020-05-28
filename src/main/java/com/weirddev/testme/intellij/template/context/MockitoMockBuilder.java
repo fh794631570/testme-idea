@@ -93,6 +93,15 @@ public class  MockitoMockBuilder {
         }
         return false;
     }
+
+    public boolean hasServiceTemplate(List<Field> fields) {
+        for (Field field : fields) {
+            if ("serviceTemplate".equalsIgnoreCase(field.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
     @SuppressWarnings("unused")
     public boolean hasMocks(Method ctor, Map<String,String> defaultTypes) {
         if (ctor == null) {

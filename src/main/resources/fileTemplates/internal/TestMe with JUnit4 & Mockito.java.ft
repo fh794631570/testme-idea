@@ -1,5 +1,6 @@
 #parse("TestMe macros.java")
 #set($hasMocks=$MockitoMockBuilder.hasMockable($TESTED_CLASS.fields))
+#set($hasServiceTemplate=$MockitoMockBuilder.hasServiceTemplate($TESTED_CLASS.fields))
 #if($PACKAGE_NAME)
 package ${PACKAGE_NAME};
 #end
@@ -11,6 +12,10 @@ import org.junit.Before;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.springframework.transaction.TransactionException;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 //import static org.mockito.Mockito.*;
 #end
 
@@ -23,6 +28,16 @@ public class ${CLASS_NAME} {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+#end
+#if($hasServiceTemplate)
+        serviceTemplate.setTransactionTemplate(new TransactionTemplate() {
+            @Override
+            public <T> T execute(TransactionCallback<T> action) throws TransactionException {
+                return action.doInTransaction(null);
+            }
+        });
+#end
+#if($hasMocks)
     }
 #end
 #foreach($method in $TESTED_CLASS.methods)

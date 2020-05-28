@@ -1,7 +1,7 @@
 #parse("TestMe common macros.java")
 ################## Global vars ###############
 #set($replacementTypesStatic = {
-    "java.util.Collection": "java.util.Arrays.<TYPES>asList(<VAL>)",
+    "java.util.Collection": "com.google.common.collect.Lists.<TYPES>newArrayList(<VAL>)",
     "java.util.Deque": "new java.util.LinkedList<TYPES>(java.util.Arrays.asList(<VAL>))",
     "java.util.List": "java.util.Arrays.<TYPES>asList(<VAL>)",
     "java.util.Map": "new java.util.HashMap<TYPES>(){{put(<VAL>,<VAL>);}}",
@@ -30,23 +30,23 @@
 #evaluate(${replacementTypesForReturn.put($javaFutureType,"<VAL>")})
 #end
 #set($defaultTypeValues = {
-    "byte": "(byte) 0",
-    "short": "(short) 0",
-    "int": "0",
-    "long": "0L",
-    "float": "0f",
-    "double": "0d",
+    "byte": "(byte) 1",
+    "short": "(short) 1",
+    "int": "1",
+    "long": "1L",
+    "float": "1f",
+    "double": "1d",
     "char": "'a'",
     "boolean": "true",
     "java.lang.Byte": "Byte.valueOf(""00110"")",
-    "java.lang.Short": "Short.valueOf((short)0)",
-    "java.lang.Integer": "Integer.valueOf(0)",
+    "java.lang.Short": "Short.valueOf((short)1)",
+    "java.lang.Integer": "Integer.valueOf(1)",
     "java.lang.Long": "Long.valueOf(1)",
     "java.lang.Float": "Float.valueOf(1.1f)",
-    "java.lang.Double": "Double.valueOf(0)",
+    "java.lang.Double": "Double.valueOf(1)",
     "java.lang.Character": "Character.valueOf('a')",
     "java.lang.Boolean": "Boolean.TRUE",
-    "java.math.BigDecimal": "new java.math.BigDecimal(0)",
+    "java.math.BigDecimal": "java.math.BigDecimal.ONE",
     "java.util.Date": "new java.util.GregorianCalendar($YEAR, java.util.Calendar.$MONTH_NAME_EN.toUpperCase(), $DAY_NUMERIC, $HOUR_NUMERIC, $MINUTE_NUMERIC).getTime()",
     "java.time.LocalDate": "java.time.LocalDate.of($YEAR, java.time.Month.$MONTH_NAME_EN.toUpperCase(), $DAY_NUMERIC)",
     "java.time.LocalDateTime": "java.time.LocalDateTime.of($YEAR, java.time.Month.$MONTH_NAME_EN.toUpperCase(), $DAY_NUMERIC, $HOUR_NUMERIC, $MINUTE_NUMERIC, $SECOND_NUMERIC)",
@@ -69,7 +69,10 @@
 ##
 #macro(renderMockedFields $testedClassFields)
 #foreach($field in $testedClassFields)
-#if($MockitoMockBuilder.isMockable($field))
+#if($field.name == "serviceTemplate")
+    @Spy
+    ${field.type.canonicalName}Impl ${field.name};
+#elseif($MockitoMockBuilder.isMockable($field))
     @Mock
     $field.type.canonicalName $field.name;
 #elseif($MockitoMockBuilder.isMockExpected($field))

@@ -1,8 +1,8 @@
-<idea-plugin version="2">
-  <id>com.weirddev.testme</id>
-  <name>TestMe</name>
-  <version>3.0.3</version>
-  <vendor email="testme@weirddev.com" url="http://weirddev.com">WeirdDev</vendor>
+<idea-plugin>
+  <id>com.fujw.justtest</id>
+  <name>JustTest</name>
+  <version>0.0.1</version>
+  <vendor email="794631570@qq.com" url="https://github.com/fh794631570/testme-idea">fujw</vendor>
 
   <description><![CDATA[
    <p>Auto Generate Unit Tests in Java, Groovy or Scala.</p>
@@ -13,17 +13,17 @@
      <li>Auto generate Mockito mocks</li>
      <li>Generate test params and assertion statements</li>
      <li>Generate relevant mocked return statements</li>
-     <li>Integrates with IDEA menus: Code->TestMe, Code->Generate</li>
+     <li>Integrates with IDEA menus: Code->JustTest, Code->Generate</li>
+     <li>Auto Generate getter/setter code.</li>
    </ul>
-   <p>You're welcome to report issues and raise feature requests at <a href="http://weirddev.com/forum#!/testme">TestMe project forum</a></p>
     ]]></description>
 
   <change-notes><![CDATA[
-        <i>Main Changes in v3.0.3 (bugfix release):</i>
+        <i>Main Changes in 0.0.1 :</i>
           <ul>
-            <li>Fix plugin load failure when IDEA runs on JDK 12+ - "couldn't initialize TestMe plugin". (reported by contra-bit on February 27 '20)</li>
+            <li>Fork from wrdv/testme-idea.v3.0.3. </li>
+            <li>Integrate gejun123456/intellij-generateAllSetMethod.</li>
           </ul>
-        <a href="http://weirddev.com/testme/release-notes">Complete Release Notes listing</a>
     ]]>
   </change-notes>
   <!-- please see https://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
@@ -32,10 +32,27 @@
   <depends>JUnit</depends>
   <depends optional="true">org.intellij.groovy</depends>
   <depends optional="true">org.intellij.scala</depends>
+  <depends optional="true" config-file="plugin-kotlin.xml">org.jetbrains.kotlin</depends>
   <extensions defaultExtensionNs="com.intellij">
-    <applicationConfigurable groupId="other" displayName="TestMe" id="preferences.TestMe" instance="com.weirddev.testme.intellij.ui.settings.TestMeConfigurable" />
+    <applicationConfigurable groupId="other" displayName="JustTest" id="preferences.JustTest" instance="com.weirddev.testme.intellij.ui.settings.TestMeConfigurable" />
     <applicationService serviceImplementation="com.weirddev.testme.intellij.configuration.TestMeConfigPersistent"/>
-    <webHelpProvider implementation="com.weirddev.testme.intellij.configuration.TestMeWebHelpProvider" id="com.weirddev.testme"/>
+    <webHelpProvider implementation="com.weirddev.testme.intellij.configuration.TestMeWebHelpProvider" id="com.fujw.justtest"/>
+    <intentionAction>
+      <className>com.weirddev.testme.intellij.generatesetter.actions.GenerateAllSetterAction</className>
+      <category>Java</category>
+    </intentionAction>
+
+    <intentionAction>
+      <className>com.weirddev.testme.intellij.generatesetter.actions.GenerateAllSetterNoDefaultValueAction</className>
+    </intentionAction>
+
+    <intentionAction>
+      <className>com.weirddev.testme.intellij.generatesetter.actions.AssertJAssertAllGetterAction</className>
+    </intentionAction>
+
+    <intentionAction>
+      <className>com.weirddev.testme.intellij.generatesetter.actions.GenerateSetterGetterFromFunctionAction</className>
+    </intentionAction>
   </extensions>
   <application-components>
     <component>
@@ -47,8 +64,8 @@
 
   <actions>
     <action id="GotoTest" class="com.weirddev.testme.intellij.action.GotoTestOrCodeActionExt"  overrides="true"/>
-    <action id="testme.action.generators" class="com.weirddev.testme.intellij.action.TestMeAction"
-            text="&amp;TestMe..." description="TestMe Unit test generators" icon="/icons/TestMe.png" >
+    <action id="justtest.action.generators" class="com.weirddev.testme.intellij.action.TestMeAction"
+            text="&amp;JustTest..." description="JustTest Unit test generators">
       <keyboard-shortcut first-keystroke="alt shift Q" keymap="$default" />
       <add-to-group group-id="GenerateGroup" relative-to-action="GenerateCopyright" anchor="after" />
       <add-to-group group-id="CodeMenu" anchor="first"/>
@@ -57,7 +74,7 @@
            <!--class="com.weirddev.testme.intellij.action.TestGeneratorsGroupAction"-->
            <!--popup="true"-->
            <!--text="TestMe"-->
-           <!--icon="/icons/TestMe.png" description="TestMe test generators">-->
+           <!--icon="/icons/JustTest.png" description="TestMe test generators">-->
       <!--<add-to-group group-id="GenerateGroup" relative-to-action="GenerateCopyright" anchor="after" />-->
     <!--</group>-->
   </actions>

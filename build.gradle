@@ -3,7 +3,8 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 buildscript {
   repositories {
-    maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
+      maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
+      //maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
   }
 }
 
@@ -40,7 +41,7 @@ allprojects{
     sourceCompatibility = jvmTargetVersion
     targetCompatibility = jvmTargetVersion
     repositories {
-        mavenCentral()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     }
 
     tasks.withType(JavaCompile) {
@@ -155,6 +156,7 @@ intellij {
         token System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
         channels = [ideaPublishChannel]
     }
+    plugins 'Kotlin'
 }
 
 idea {

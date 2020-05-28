@@ -50,7 +50,7 @@ public class TestMeActionTest extends TestMeGeneratorTestBase {
     }
 
     private AnAction invokeAction() {
-        final String actionId = "testme.action.generators";
+        final String actionId = "justtest.action.generators";
         final AnAction action = ActionManager.getInstance().getAction(actionId);
         assertNotNull("Can find registered action with id=" + actionId, action);
         action.actionPerformed(
