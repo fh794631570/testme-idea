@@ -36,7 +36,7 @@ public class TestMeConfigurable implements SearchableConfigurable {
     @Nls
     @Override
     public String getDisplayName() {
-        return "TestMe";
+        return "JustTest";
     }
 
     @Nullable

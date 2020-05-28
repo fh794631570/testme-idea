@@ -54,6 +54,6 @@ public class TestMePluginRegistration implements ApplicationComponent {
     @NotNull
     @Override
     public String getComponentName() {
-        return "TestMe";
+        return "JustTest";
     }
 }
